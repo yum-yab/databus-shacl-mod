@@ -1,0 +1,108 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xhv: <http://www.w3.org/1999/xhtml/vocab#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+
+#
+# Ontology Level Tests for Archivo
+#
+#
+
+
+<#ontology-label-violation>
+    a sh:NodeShape;
+    sh:severity sh:Violation;
+    sh:targetClass owl:Ontology, skos:ConceptScheme;
+    dct:description "For having a proper title on the Databus (and therefor also on the website), Archivo uses skos:prefLabel, rdfs:label, dct:title and dc:title (taken in that order)."@en ;
+    sh:message "Archivo requires either skos:prefLabel, rdfs:label, dct:title or dc:title for the title of the ontology. Default is the non information resource URI."@en ;
+    sh:or (
+        [
+            sh:path skos:prefLabel;
+            sh:nodeKind sh:Literal;
+            sh:minCount 1;
+        ]
+        [
+            sh:path rdfs:label;
+            sh:nodeKind sh:Literal;
+            sh:minCount 1;
+        ]
+        [
+            sh:path dc:title;
+            sh:nodeKind sh:Literal;
+            sh:minCount 1;
+        ]
+        [
+            sh:path dct:title;
+            sh:nodeKind sh:Literal;
+            sh:minCount 1;
+        ]
+        
+    ).
+
+
+<#archivo-comment-violation>
+    a sh:NodeShape ;
+    sh:severity sh:Violation;
+    sh:targetClass owl:Ontology, skos:ConceptScheme;
+    dct:description "For a short comment on the Databus (and therefor also on the website) Archivo uses the first sentence of either dct:abstract, dct:description or dc:description (taken in that order)."@en ;
+    sh:message "Archivo requires either dct:abstract, dct:description or dc:description for a short comment about the ontology."@en ;
+    sh:or (
+        [
+            sh:path dct:abstract;
+            sh:nodeKind sh:Literal;
+            sh:minCount 1;
+        ]
+        [
+            sh:path dct:description;
+            sh:nodeKind sh:Literal;
+            sh:minCount 1;
+        ]
+        [
+            sh:path dc:description;
+            sh:nodeKind sh:Literal;
+            sh:minCount 1;
+        ] 
+    ).
+
+
+<#archivo-description-warning>
+    a sh:NodeShape ;
+    sh:targetClass owl:Ontology, skos:ConceptScheme;
+    sh:severity sh:Warning;
+    dct:description "For a longer description on the Databus Archivo aggregates the values of rdfs:description, dcterms:description, dc:description, rdfs:comment and dcterms:abstract."@en ;
+    sh:message "For a proper description of the ontology on the Databus Archivo requires at least one of rdfs:description, dcterms:description, dc:description, rdfs:comment or dcterms:abstract."@en ;
+    sh:or (
+        [
+            sh:path rdfs:description;
+            sh:nodeKind sh:Literal;
+            sh:minCount 1;
+        ]
+        [
+            sh:path dct:description;
+            sh:nodeKind sh:Literal;
+            sh:minCount 1;
+        ]
+        [
+            sh:path dc:description;
+            sh:nodeKind sh:Literal;
+            sh:minCount 1;
+        ] 
+        [
+            sh:path rdfs:comment;
+            sh:nodeKind sh:Literal;
+            sh:minCount 1;
+        ] 
+        [
+            sh:path dct:abstract;
+            sh:nodeKind sh:Literal;
+            sh:minCount 1;
+        ] 
+    ).
+
