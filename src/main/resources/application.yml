@@ -1,0 +1,12 @@
+# volume to write the results to
+worker:
+  volume: ./target/volume/
+
+
+
+# version information for provenance
+# currentHash -> should be the current commit hash (e.g. for github) the mod results were created with
+#                since this can never be the correct one paste the result of "git rev-parse HEAD" in here
+# TODO: can this be automated, e.g. fetched on startup? Or maybe in env and set in docker or sth
+version:
+  currentHash: "6d346a419c35d2b59bad21607242307ff36ff0dd"

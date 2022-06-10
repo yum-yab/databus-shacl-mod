@@ -4,13 +4,11 @@ import org.apache.jena.riot.RDFDataMgr
 import org.apache.jena.shacl.Shapes
 import org.dbpedia.models.ShaclCheck
 import org.slf4j.LoggerFactory
-import java.io.File
-import java.nio.file.Files
 import java.nio.file.Paths
 
-object HelperFunctions {
+object Utils {
 
-    private val logger = LoggerFactory.getLogger("swupp")
+    private val logger = LoggerFactory.getLogger(this::class.simpleName)
 
     fun loadShapes(): List<ShaclCheck> {
         val projectDirAbsolutePath = Paths.get("").toAbsolutePath().toString()
@@ -21,7 +19,7 @@ object HelperFunctions {
 
         val shapes = files.map { file -> try {
                 val shape = Shapes.parse(RDFDataMgr.loadGraph(file.absolutePath))
-                ShaclCheck(file.name, shape)
+                ShaclCheck(file.name.reversed().split(".", limit = 2)[0].reversed(), shape)
             } catch (ex: java.lang.Exception) {
                 logger.error("Could not load shape $file :", ex)
                 null
